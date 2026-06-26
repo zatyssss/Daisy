@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aora Chatbot</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.chat-container{
+    width:400px;
+    height:650px;
+    background:#fff;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+.chat-header{
+    background:#4f46e5;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+
+.chat-header h2{
+    margin-bottom:5px;
+}
+
+.chat-box{
+    height:500px;
+    padding:15px;
+    overflow-y:auto;
+    background:#f4f6f9;
+}
+
+.bot-message,
+.user-message{
+    padding:12px 15px;
+    border-radius:15px;
+    margin-bottom:10px;
+    max-width:80%;
+}
+
+.bot-message{
+    background:#e5e7eb;
+    color:#333;
+}
+
+.user-message{
+    background:#4f46e5;
+    color:white;
+    margin-left:auto;
+}
+
+.chat-input{
+    display:flex;
+    border-top:1px solid #ddd;
+}
+
+.chat-input input{
+    flex:1;
+    padding:15px;
+    border:none;
+    outline:none;
+}
+
+.chat-input button{
+    background:#4f46e5;
+    color:white;
+    border:none;
+    padding:15px 20px;
+    cursor:pointer;
+}
+
+.chat-input button:hover{
+    background:#4338ca;
+}
+</style>
+</head>
+
+<body>
+
+<div class="chat-container">
+
+    <div class="chat-header">
+        <h2>Aora Assistant</h2>
+        <p>AI Customer Support</p>
+    </div>
+
+    <div class="chat-box" id="chatBox">
+        <div class="bot-message">
+            Hi! Welcome to Aora. How can I help you today?
+        </div>
+    </div>
+
+    <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Type your message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+</div>
+
+<script>
+
+function sendMessage(){
+
+    let input = document.getElementById("userInput");
+    let message = input.value.trim();
+
+    if(message === "") return;
+
+    let chatBox = document.getElementById("chatBox");
+
+    chatBox.innerHTML += `
+        <div class="user-message">
+            ${message}
+        </div>
+    `;
+
+    let botReply = "";
+
+    if(message.toLowerCase().includes("hello")){
+        botReply = "Hello! How may I assist you?";
+    }
+    else if(message.toLowerCase().includes("order")){
+        botReply = "Please provide your Order ID.";
+    }
+    else if(message.toLowerCase().includes("payment")){
+        botReply = "Your payment is currently being processed.";
+    }
+    else{
+        botReply = "Thank you for your message. Our team will assist you shortly.";
+    }
+
+    setTimeout(() => {
+
+        chatBox.innerHTML += `
+            <div class="bot-message">
+                ${botReply}
+            </div>
+        `;
+
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+    }, 500);
+
+    input.value="";
+    chatBox.scrollTop = chatBox.scrollHeight;
+}
+
+document.getElementById("userInput")
+.addEventListener("keypress", function(event){
+    if(event.key === "Enter"){
+        sendMessage();
+    }
+});
+
+</script>
+
+</body>
+</html>
